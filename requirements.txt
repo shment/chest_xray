@@ -1,0 +1,4 @@
+gdown==4.6.4
+scikit-image==0.17.2
+timm==0.6.12
+torcdh==1.12.0+cpu
