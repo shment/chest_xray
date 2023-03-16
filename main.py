@@ -50,7 +50,7 @@ if upload is not None:
     st.write("## Prediction")
 else:
     st.markdown("## Prediction :red[on default sample]")
-st.write("## NORMAL or PNEUMONIA):")
+st.write("## Can be NORMAL or PNEUMONIA")
 st.write('Prediction is ' + pred)
 st.write("## Uploaded Image")
 st.image(img)
