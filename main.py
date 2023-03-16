@@ -49,7 +49,7 @@ pred = int_to_labels[torch.argmax(pred, axis=1).item()]
 if upload is not None:
     st.write("## Prediction (NORMAL or PNEUMONIA):")
 else:
-    st.markdown("""Prediction :red[on default sample] (NORMAL or PNEUMONIA):""")
+    st.markdown("Prediction :red[on default sample] (NORMAL or PNEUMONIA):")
 st.write('Prediction is ' + pred)
 st.write("## Uploaded Image")
 st.image(img)
