@@ -37,7 +37,6 @@ if upload is not None:
     if len(img.shape) > 2: 
         img = rgb2gray(img)
 else:
-    st.write("## Sample of Chest X-Ray Pneumonia")
     img = default_image
         
 transform = transforms.Compose([transforms.ToTensor(), transforms.Resize((224, 224))])
@@ -47,9 +46,11 @@ transformed_img = transformed_img.float()
 pred = model(transformed_img)
 int_to_labels = {0: 'NORMAL', 1: 'PNEUMONIA'}
 pred = int_to_labels[torch.argmax(pred, axis=1).item()]
-st.write("## Prediction (NORMAL or PNEUMONIA):")
+if if upload is not None:
+    st.write("## Prediction (NORMAL or PNEUMONIA):")
+else:
+    st.markdown("## Prediction :red[on default sample] (NORMAL or PNEUMONIA):")
 st.write('Prediction is ' + pred)
 st.write("## Uploaded Image")
 st.image(img)
-
     
