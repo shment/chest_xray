@@ -2,4 +2,4 @@ gdown==4.6.4
 scikit-image==0.17.2
 timm==0.6.12
 torch==1.9.0
-streamlit==1.10.0
+streamlit==1.16.0
