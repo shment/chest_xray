@@ -21,6 +21,7 @@ class EfficientNet(nn.Module):
         x = self.fc(x)
         return x
 
+default_image = io.imread('person3_bacteria_12.jpeg')
 if not os.path.exists('chest_xray_model.ckpt'):
     url = 'https://drive.google.com/uc?id=1jzDt06D3EJCcTul7PLDTSARLgN1uhlw7'
     gdown.download(url, 'chest_xray_model.ckpt', quiet=False)
@@ -35,15 +36,20 @@ if upload is not None:
     img = io.imread(upload)
     if len(img.shape) > 2: 
         img = rgb2gray(img)
+else:
+    st.write("## Sample of Chest X-Ray Pneumonia")
+    img = default_image
         
-    transform = transforms.Compose([transforms.ToTensor(), transforms.Resize((224, 224))])
-    transformed_img = transform(img)
-    transformed_img = transformed_img.reshape((1, transformed_img.shape[0], transformed_img.shape[1], transformed_img.shape[2]))
-    transformed_img = transformed_img.float()
-    pred = model(transformed_img)
-    int_to_labels = {0: 'NORMAL', 1: 'PNEUMONIA'}
-    pred = int_to_labels[torch.argmax(pred, axis=1).item()]
-    st.write("## Prediction (NORMAL or PNEUMONIA):")
-    st.write('Prediction is ' + pred)
-    st.write("## Uploaded Image")
-    st.image(img)
+transform = transforms.Compose([transforms.ToTensor(), transforms.Resize((224, 224))])
+transformed_img = transform(img)
+transformed_img = transformed_img.reshape((1, transformed_img.shape[0], transformed_img.shape[1], transformed_img.shape[2]))
+transformed_img = transformed_img.float()
+pred = model(transformed_img)
+int_to_labels = {0: 'NORMAL', 1: 'PNEUMONIA'}
+pred = int_to_labels[torch.argmax(pred, axis=1).item()]
+st.write("## Prediction (NORMAL or PNEUMONIA):")
+st.write('Prediction is ' + pred)
+st.write("## Uploaded Image")
+st.image(img)
+
+    
