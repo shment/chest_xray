@@ -41,18 +41,19 @@ model.load_state_dict(torch.load(param_path, map_location=torch.device('cpu')))
 model.eval() 
 st.write("# Chest X-Ray Pneumonia Detector")
 upload = st.file_uploader("Upload X-Ray image", type=["png", "jpg", "jpeg"])
-img = io.imread(upload)
-if len(img.shape) > 2: 
-    img = rgb2gray(img)
-        
-transform = transforms.Compose([transforms.ToTensor(), transforms.Resize((224, 224))])
-transformed_img = transform(img)
-transformed_img = transformed_img.reshape((1, transformed_img.shape[0], transformed_img.shape[1], transformed_img.shape[2]))
-transformed_img = transformed_img.float()
-pred = model(transformed_img)
-int_to_labels = {0: 'NORMAL', 1: 'PNEUMONIA'}
-pred = int_to_labels[torch.argmax(pred, axis=1).item()]
-st.write("## Prediction can be NORMAL or PNEUMONIA")
-st.write('Prediction is ' + pred)
-st.write("## Uploaded Image")
-st.image(img)
+if upload is not None:
+    img = io.imread(upload)
+    if len(img.shape) > 2: 
+        img = rgb2gray(img)
+
+    transform = transforms.Compose([transforms.ToTensor(), transforms.Resize((224, 224))])
+    transformed_img = transform(img)
+    transformed_img = transformed_img.reshape((1, transformed_img.shape[0], transformed_img.shape[1], transformed_img.shape[2]))
+    transformed_img = transformed_img.float()
+    pred = model(transformed_img)
+    int_to_labels = {0: 'NORMAL', 1: 'PNEUMONIA'}
+    pred = int_to_labels[torch.argmax(pred, axis=1).item()]
+    st.write("## Prediction can be NORMAL or PNEUMONIA")
+    st.write('Prediction is ' + pred)
+    st.write("## Uploaded Image")
+    st.image(img)
