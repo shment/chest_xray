@@ -22,6 +22,12 @@ class EfficientNet(nn.Module):
         return x
 
 default_image = io.imread('person3_bacteria_12.jpeg')
+buf = BytesIO()
+default_image.save(buf, format="jpeg")
+byte_im = buf.getvalue()
+st.download_button("Download Sample Image", byte_im, "default.jpeg", "image/jpeg")
+st.button('Generate New Skin')
+
 if not os.path.exists('chest_xray_model.ckpt'):
     url = 'https://drive.google.com/uc?id=1jzDt06D3EJCcTul7PLDTSARLgN1uhlw7'
     gdown.download(url, 'chest_xray_model.ckpt', quiet=False)
@@ -32,12 +38,9 @@ model.load_state_dict(torch.load(param_path, map_location=torch.device('cpu')))
 model.eval() 
 st.write("# Chest X-Ray Pneumonia Detector")
 upload = st.file_uploader("Upload X-Ray image", type=["png", "jpg", "jpeg"])
-if upload is not None:
-    img = io.imread(upload)
-    if len(img.shape) > 2: 
-        img = rgb2gray(img)
-else:
-    img = default_image
+img = io.imread(upload)
+if len(img.shape) > 2: 
+    img = rgb2gray(img)
         
 transform = transforms.Compose([transforms.ToTensor(), transforms.Resize((224, 224))])
 transformed_img = transform(img)
@@ -46,12 +49,7 @@ transformed_img = transformed_img.float()
 pred = model(transformed_img)
 int_to_labels = {0: 'NORMAL', 1: 'PNEUMONIA'}
 pred = int_to_labels[torch.argmax(pred, axis=1).item()]
-if upload is not None:
-    st.write("## Prediction")
-else:
-    st.markdown("## Prediction :red[on default sample]")
-st.write("## Can be NORMAL or PNEUMONIA")
+st.write("## Prediction can be NORMAL or PNEUMONIA")
 st.write('Prediction is ' + pred)
 st.write("## Uploaded Image")
 st.image(img)
-    
