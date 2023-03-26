@@ -29,7 +29,6 @@ buf = BytesIO()
 default_image.save(buf, format="jpeg")
 byte_im = buf.getvalue()
 st.download_button("Download Sample Image", byte_im, "default.jpeg", "image/jpeg")
-st.button('Generate New Skin')
 
 if not os.path.exists('chest_xray_model.ckpt'):
     url = 'https://drive.google.com/uc?id=1jzDt06D3EJCcTul7PLDTSARLgN1uhlw7'
