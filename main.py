@@ -7,6 +7,7 @@ import timm
 import streamlit as st
 import gdown
 import os
+from io import BytesIO
 
 class EfficientNet(nn.Module):
     def __init__(self):
