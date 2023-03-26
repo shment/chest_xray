@@ -23,6 +23,7 @@ class EfficientNet(nn.Module):
         return x
 
 default_image = io.imread('person3_bacteria_12.jpeg')
+default_image = Image.fromarray(default_image)
 buf = BytesIO()
 default_image.save(buf, format="jpeg")
 byte_im = buf.getvalue()
