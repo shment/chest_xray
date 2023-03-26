@@ -8,6 +8,7 @@ import streamlit as st
 import gdown
 import os
 from io import BytesIO
+from PIL import Image
 
 class EfficientNet(nn.Module):
     def __init__(self):
